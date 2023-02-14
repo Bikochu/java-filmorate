@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -27,63 +26,25 @@ public class FilmController {
     }
 
     @PostMapping()
-    public Film addFilm(@Valid @RequestBody Film film) throws ValidationException {
-        if (film.getName() == null || film.getName().isBlank()) {
-            log.error("Строка с именем пустая.");
-            throw new ValidationException("Имя фильма не должно быть пустым.");
-        }
-        if (film.getDescription().length() >= 200) {
-            log.error("Длинна строки превышает 200 символов.");
-            throw new ValidationException("Максимальная длинна описания 200 символов.");
-        }
-        if (film.getReleaseDate().isBefore(LocalDate.of(1895,12,28))) {
-            log.error("Дата введена не верно.");
-            throw new ValidationException("Дата релиза не может быть раньше 28 декабря 1895 года.");
-        }
-        if (film.getDuration() < 0) {
-            log.error("Введено отрицательное значение.");
-            throw new ValidationException("Продолжительность фильма не может быть отрицательной.");
-        }
+    public Film addFilm(@Valid @RequestBody Film film) {
         if (!films.containsKey(film.getId())) {
             id++;
             film.setId(id);
-            log.info("Добавили фильму ID: {} .",id);
+            log.info("Добавили фильму ID: {} .", id);
         }
-        films.put(film.getId(),film);
-        log.info("Добавили фильм {} в коллекцию под номером {}.",film.getName(),film.getId());
-
+        films.put(film.getId(), film);
+        log.info("Добавили фильм {} в коллекцию под номером {}.", film.getName(), film.getId());
         return film;
     }
 
     @PutMapping()
-    public Film updateFilm (@Valid @RequestBody Film film) throws ValidationException {
-        if (films.containsKey(film.getId())) {
-            if (film.getName() == null || film.getName().isBlank()) {
-                log.error("Строка с именем пустая.");
-                throw new ValidationException("Имя фильма не должно быть пустым.");
-            }
-            if (film.getDescription().length() >= 200) {
-                log.error("Длинна строки превышает 200 символов.");
-                throw new ValidationException("Максимальная длинна описания 200 символов.");
-            }
-            if (film.getReleaseDate().isBefore(LocalDate.of(1895,12,28))) {
-                log.error("Дата введена не верно.");
-                throw new ValidationException("Дата релиза не может быть раньше 28 декабря 1895 года.");
-            }
-            if (film.getDuration() < 0) {
-                log.error("Введено отрицательное значение.");
-                throw new ValidationException("Продолжительность фильма не может быть отрицательной.");
-            }
-            films.put(film.getId(), film);
-            log.info("Обновили фильм {} в коллекции.",film.getName());
-        } else {
+    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException {
+        if (!films.containsKey(film.getId())) {
             log.error("Номер фильма в коллекции не существует.");
             throw new ValidationException("Такого фильма не существует.");
         }
+        films.put(film.getId(), film);
+        log.info("Обновили фильм {} в коллекции.", film.getName());
         return film;
-    }
-
-    public void setId(int id) {
-        FilmController.id = id;
     }
 }
