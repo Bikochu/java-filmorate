@@ -15,7 +15,6 @@ import java.util.HashMap;
 @RequestMapping("/films")
 @ResponseBody
 public class FilmController {
-
     private static int id = 0;
     private final HashMap<Integer, Film> films = new HashMap<>();
 
