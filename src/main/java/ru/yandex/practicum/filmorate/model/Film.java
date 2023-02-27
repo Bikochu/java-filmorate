@@ -21,4 +21,5 @@ public class Film {
     LocalDate releaseDate;
     @Positive(message = "Продолжительность фильма не может быть отрицательной.")
     Long duration;
+    int rate;
 }
