@@ -2,11 +2,9 @@ package ru.yandex.practicum.filmorate.controller;
 
 import ru.yandex.practicum.filmorate.exeption.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exeption.UserNotFoundException;
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -16,32 +14,30 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController {
 
-    private final InMemoryFilmStorage inMemoryFilmStorage;
     private final FilmService filmService;
 
-    public FilmController(InMemoryFilmStorage inMemoryFilmStorage, FilmService filmService) {
-        this.inMemoryFilmStorage = inMemoryFilmStorage;
+    public FilmController(FilmService filmService) {
         this.filmService = filmService;
     }
 
     @GetMapping
     public ArrayList<Film> getFilms() {
-        return inMemoryFilmStorage.getFilms();
+        return filmService.getFilms();
     }
 
     @PostMapping()
     public Film addFilm(@Valid @RequestBody Film film) {
-        return inMemoryFilmStorage.addFilm(film);
+        return filmService.addFilm(film);
     }
 
     @PutMapping()
-    public Film updateFilm(@Valid @RequestBody Film film) throws ValidationException {
-        return inMemoryFilmStorage.updateFilm(film);
+    public Film updateFilm(@Valid @RequestBody Film film) {
+        return filmService.updateFilm(film);
     }
 
     @GetMapping("/{id}")
     public Film findFilmById(@PathVariable("id") int id) {
-        return inMemoryFilmStorage.findFilmById(id);
+        return filmService.findFilmById(id);
     }
 
     @GetMapping("/popular")

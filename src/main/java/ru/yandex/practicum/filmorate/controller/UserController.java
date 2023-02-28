@@ -1,10 +1,8 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import ru.yandex.practicum.filmorate.exeption.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -13,32 +11,30 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-    private final InMemoryUserStorage inMemoryUserStorage;
     private final UserService userService;
 
-    public UserController(InMemoryUserStorage inMemoryUserStorage, UserService userService) {
-        this.inMemoryUserStorage = inMemoryUserStorage;
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
     public List<User> getUsers() {
-        return inMemoryUserStorage.getUsers();
+        return userService.getUsers();
     }
 
     @PostMapping()
     public User addUser(@Valid @RequestBody User user) {
-        return inMemoryUserStorage.addUser(user);
+        return userService.addUser(user);
     }
 
     @PutMapping()
-    public User updateUser(@Valid @RequestBody User user) throws ValidationException {
-        return inMemoryUserStorage.updateUser(user);
+    public User updateUser(@Valid @RequestBody User user) {
+        return userService.updateUser(user);
     }
 
     @GetMapping("/{id}")
     public User findUserById(@PathVariable("id") int id) {
-        return inMemoryUserStorage.findUserById(id);
+        return userService.findUserById(id);
     }
 
     @GetMapping("/{id}/friends")
