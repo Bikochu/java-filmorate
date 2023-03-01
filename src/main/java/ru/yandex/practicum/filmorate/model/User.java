@@ -9,6 +9,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @lombok.Data
 @lombok.Builder
@@ -20,13 +22,15 @@ public class User {
     String email;
     @NotBlank(message = "Логин не может быть пустым и содержать пробелы.")
     String login;
-    @Getter (AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     String name;
     @Past(message = "Дата рождения не может быть в будущем.")
     LocalDate birthday;
+    final Set<Integer> friends = new HashSet<>();
+    final Set<Integer> filmsLike = new HashSet<>();
 
     public String getName() {
-        if (name == null) {
+        if (name == null || name.isBlank()) {
             return login;
         } else {
             return name;
