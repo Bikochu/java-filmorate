@@ -42,6 +42,7 @@ public class UserService {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
+
     public List<User> getCommonFriends(int id, int otherId) {
         User user = userStorage.findUserById(id);
         List<User> commonFriends = new ArrayList<>();
