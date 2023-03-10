@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exeption.UserNotFoundException;
+import ru.yandex.practicum.filmorate.model.Status;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.inteface.UserStorage;
 
@@ -66,5 +67,33 @@ public class UserService {
     public void removeFriend(int id, int friendId) {
         userStorage.findUserById(id).getFriends().remove(friendId);
         userStorage.findUserById(friendId).getFriends().remove(id);
+        userStorage.findUserById(id).getRequest().remove(friendId);
+        userStorage.findUserById(friendId).getRequest().remove(id);
+    }
+
+    public void sendRequest(int id, int friendId) {
+        userStorage.findUserById(id).getRequest().put(friendId,Status.PENDING);
+        userStorage.findUserById(friendId).getRequest().put(id,Status.PENDING);
+    }
+
+    public List<Integer> checkRequest(int id) {
+        List<Integer> pendingFriends = new ArrayList<>();
+        for (Map.Entry<Integer,Status> entry : userStorage.findUserById(id).getRequest().entrySet()) {
+            if (entry.getValue().equals(Status.PENDING)) {
+                pendingFriends.add(entry.getKey());
+            }
+        }
+        return pendingFriends;
+    }
+
+    public void acceptRequest(int id, int friendId) {
+        userStorage.findUserById(id).getRequest().put(friendId,Status.ACCEPTED);
+        userStorage.findUserById(friendId).getRequest().put(id,Status.ACCEPTED);
+        addFriend(id,friendId);
+    }
+
+    public void declineRequest(int id, int friendId) {
+        userStorage.findUserById(id).getRequest().put(friendId,Status.DECLINE);
+        userStorage.findUserById(friendId).getRequest().put(id,Status.DECLINE);
     }
 }

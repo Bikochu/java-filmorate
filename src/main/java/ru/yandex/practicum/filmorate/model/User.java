@@ -9,7 +9,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @lombok.Data
@@ -28,6 +30,7 @@ public class User {
     LocalDate birthday;
     final Set<Integer> friends = new HashSet<>();
     final Set<Integer> filmsLike = new HashSet<>();
+    final HashMap<Integer,Status> request;
 
     public String getName() {
         if (name == null || name.isBlank()) {

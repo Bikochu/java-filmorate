@@ -22,4 +22,6 @@ public class Film {
     @Positive(message = "Продолжительность фильма не может быть отрицательной.")
     Long duration;
     int rate;
+    Genre genre;
+    AgeRating ageRating;
 }
