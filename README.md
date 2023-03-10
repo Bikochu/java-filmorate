@@ -34,4 +34,4 @@
 - film_id INT
 
 
-![Ссылка схемы БД.](src/main/resources/static/Схема Filmorate.png)
+![Ссылка схемы БД.](https://github.com/Bikochu/java-filmorate/blob/add_scheme_of_data_base/src/main/resources/static/%D0%A1%D1%85%D0%B5%D0%BC%D0%B0%20Filmorate.png)
