@@ -24,14 +24,33 @@
 - description VARCHAR(255)
 - release_date DATE
 - duration BIGINT
-- rate INT
-- genre VARCHAR(255)
-- age_rating VARCHAR(255)
+- genre_id INT
+- age_id INT
 
 4) У каждого фильма есть film_like, которые показывают кому понравился этот фильм. Для этого мы реализуем таблицу с 
 пользователями которым понравился тот или иной фильм:
 - user_id INT
 - film_id INT
 
+5) Так же мы реализуем таблицу с жанров (genre) и таблицу возрастного рейтинга (age_rating)
+- genre_id INT (Primary key)
+- name VARCHAR(255)
 
-![Ссылка схемы БД.](https://github.com/Bikochu/java-filmorate/blob/add_scheme_of_data_base/src/main/resources/static/%D0%A1%D1%85%D0%B5%D0%BC%D0%B0%20Filmorate.png)
+- age_id INT (Primary key)
+- name VARCHAR(255)
+
+В дальнейшем реализуем взаимодействие с БД.
+User:
+- GetUserById - Вывести пользователя по ID
+- GetFriendsByUserId - Вывести всех друзей по ID пользователя
+- GetCommonFriends - Вывести общих друзей между двумя пользователями
+- GetStatusOfUser - Вывести статус одобрения/отказа добавления в друзья
+
+Film:
+- GetAllFilmsByGenre - вывести все фильмы жанра
+- GetFilmById - получить фильм по ID
+- GetRate - вывести рейтинг фильма по ID
+- GetPopularFilms - вывести популярные фильмы
+- GetAgeRating - вывести фильмы с возрастным рейтингом
+
+![Ссылка схемы БД.](https://github.com/Bikochu/java-filmorate/blob/add_scheme_of_data_base/src/main/resources/static/DB_Filmorate.png)
