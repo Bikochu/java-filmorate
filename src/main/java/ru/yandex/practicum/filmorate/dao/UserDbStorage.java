@@ -54,8 +54,6 @@ public class UserDbStorage implements UserStorage {
         if (id > userId) {
             throw new UserNotFoundException("Пользователь не найден.");
         }
-        /*String sql = "SELECT * FROM User WHERE user_id=?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());*/
         String sql = "SELECT * FROM Users WHERE user_id = ?";
         SqlRowSet rs = jdbcTemplate.queryForRowSet(sql, id);
         if (rs.next()) {
@@ -81,7 +79,7 @@ public class UserDbStorage implements UserStorage {
         return friends;
     }
 
-    public void addFriend (int user_id, int friend_id) {
+    public void addFriend(int user_id, int friend_id) {
         if (findUserById(user_id) == null || user_id < 0 || findUserById(friend_id) == null || friend_id < 0) {
             throw new UserNotFoundException("Пользователь не найден.");
         } else {
@@ -107,15 +105,15 @@ public class UserDbStorage implements UserStorage {
 
     public void addFilmsLike(int filmId, int userId) {
         String sql = "INSERT INTO Film_like (user_id, film_id) VALUES (?, ?)";
-        jdbcTemplate.update(sql, userId,filmId);
+        jdbcTemplate.update(sql, userId, filmId);
         String sqlRate = "UPDATE Film SET rate=? WHERE film_id=?";
-        jdbcTemplate.update(sqlRate, +1 ,userId);
+        jdbcTemplate.update(sqlRate, +1, userId);
     }
 
-    public void removeFilmLike( int filmId, int userId) {
+    public void removeFilmLike(int filmId, int userId) {
         String sql = "DELETE FROM Film_like WHERE user_id=? AND film_id=?";
         jdbcTemplate.update(sql, userId, filmId);
         String sqlRate = "UPDATE Film SET rate=? WHERE film_id=?";
-        jdbcTemplate.update(sqlRate, -1 ,userId);
+        jdbcTemplate.update(sqlRate, -1, userId);
     }
 }
