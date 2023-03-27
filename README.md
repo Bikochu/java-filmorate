@@ -53,4 +53,4 @@ Film:
 - GetPopularFilms - вывести популярные фильмы
 - GetAgeRating - вывести фильмы с возрастным рейтингом
 
-![Ссылка схемы БД.](https://github.com/Bikochu/java-filmorate/blob/add_scheme_of_data_base/src/main/resources/DB_schema.png)
+![Ссылка схемы БД.](https://github.com/Bikochu/java-filmorate/blob/add-database/src/main/resources/DB_schema.png)
