@@ -23,7 +23,7 @@ public class MpaController {
     }
 
     @GetMapping("/{id}")
-    public Mpa getMpaById (@PathVariable("id") int id) {
+    public Mpa getMpaById(@PathVariable("id") int id) {
         if (mpaStorage.findMpaById(id) != null) {
             return mpaStorage.findMpaById(id);
         } else {
