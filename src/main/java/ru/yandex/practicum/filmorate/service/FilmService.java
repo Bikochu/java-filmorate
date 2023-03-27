@@ -48,7 +48,7 @@ public class FilmService {
     public void addFilmLike(int filmId, int userId) {
         userDbStorage.addFilmsLike(filmId,userId);
         Film film = filmDbStorage.findFilmById(filmId);
-        film.setRate(film.getRate()+1);
+        film.setRate(film.getRate() + 1);
         userDbStorage.findUserById(userId).getFilmsLike().add(filmId);
     }
 
