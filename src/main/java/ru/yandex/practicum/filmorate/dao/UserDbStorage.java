@@ -79,27 +79,27 @@ public class UserDbStorage implements UserStorage {
         return friends;
     }
 
-    public void addFriend(int user_id, int friend_id) {
-        if (findUserById(user_id) == null || user_id < 0 || findUserById(friend_id) == null || friend_id < 0) {
+    public void addFriend(int userId, int friendId) {
+        if (findUserById(userId) == null || userId < 0 || findUserById(friendId) == null || friendId < 0) {
             throw new UserNotFoundException("Пользователь не найден.");
         } else {
             String sql = "INSERT INTO Friendship (user_id, friend_id, status) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, user_id, friend_id, "ACCEPTED");
+            jdbcTemplate.update(sql, userId, friendId, "ACCEPTED");
         }
     }
 
-    public void removeFriend(int user_id, int friend_id) {
-        if (findUserById(user_id) == null || user_id < 0 || findUserById(friend_id) == null || friend_id < 0) {
+    public void removeFriend(int userId, int friendId) {
+        if (findUserById(userId) == null || userId < 0 || findUserById(friendId) == null || friendId < 0) {
             throw new UserNotFoundException("Пользователь не найден.");
         } else {
             String sql = "DELETE FROM Friendship WHERE user_id = ? AND friend_id = ?";
-            jdbcTemplate.update(sql, user_id, friend_id);
+            jdbcTemplate.update(sql, userId, friendId);
         }
     }
 
-    public List<User> getCommonFriends(int user_id, int other_id) {
-        List<User> commonFriends = new ArrayList<>(getFriends(user_id));
-        commonFriends.retainAll(getFriends(other_id));
+    public List<User> getCommonFriends(int userId, int otherId) {
+        List<User> commonFriends = new ArrayList<>(getFriends(userId));
+        commonFriends.retainAll(getFriends(otherId));
         return commonFriends;
     }
 
