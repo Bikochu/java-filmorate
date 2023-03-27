@@ -7,6 +7,7 @@ import ru.yandex.practicum.filmorate.storage.inteface.FilmStorage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
@@ -15,7 +16,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     private final HashMap<Integer, Film> films = new HashMap<>();
 
     @Override
-    public ArrayList<Film> getFilms() {
+    public List<Film> getFilms() {
         return new ArrayList<>(films.values());
     }
 

@@ -1,12 +1,12 @@
 package ru.yandex.practicum.filmorate.model;
 
-public class Genre {
+public class Mpa {
     int id;
     String name;
 
-    public Genre(int id, String genre) {
+    public Mpa(int id, String name) {
         this.id = id;
-        this.name = genre;
+        this.name = name;
     }
 
     public int getId() {
@@ -25,3 +25,4 @@ public class Genre {
         this.name = name;
     }
 }
+
