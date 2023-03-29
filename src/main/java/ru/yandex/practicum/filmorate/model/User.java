@@ -24,9 +24,7 @@ public class User {
     String name;
     @Past(message = "Дата рождения не может быть в будущем.")
     LocalDate birthday;
-    //final Set<Integer> friends = new HashSet<>();
     final Set<Integer> filmsLike = new HashSet<>();
-    //final HashMap<Integer,Status> request;
 
     public String getName() {
         if (name == null || name.isBlank()) {

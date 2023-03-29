@@ -2,9 +2,9 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.dao.FilmDbStorage;
-import ru.yandex.practicum.filmorate.dao.UserDbStorage;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.inteface.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.inteface.UserStorage;
 
 import java.util.Comparator;
 import java.util.List;
@@ -13,50 +13,50 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService {
 
-    private final FilmDbStorage filmDbStorage;
-    private final UserDbStorage userDbStorage;
+    private final FilmStorage filmStorage;
+    private final UserStorage userStorage;
 
     @Autowired
-    public FilmService(FilmDbStorage filmDbStorage, UserDbStorage userDbStorage) {
-        this.filmDbStorage = filmDbStorage;
-        this.userDbStorage = userDbStorage;
+    public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
+        this.filmStorage = filmStorage;
+        this.userStorage = userStorage;
     }
 
     public List<Film> getFilms() {
-        return filmDbStorage.getFilms();
+        return filmStorage.getFilms();
     }
 
     public Film addFilm(Film film) {
-        return filmDbStorage.addFilm(film);
+        return filmStorage.addFilm(film);
     }
 
     public Film updateFilm(Film film) {
-        return filmDbStorage.updateFilm(film);
+        return filmStorage.updateFilm(film);
     }
 
     public Film findFilmById(int id) {
-        return filmDbStorage.findFilmById(id);
+        return filmStorage.findFilmById(id);
     }
 
     public List<Film> getPopular(int count) {
-        return filmDbStorage.getFilms().stream()
+        return filmStorage.getFilms().stream()
                 .sorted(Comparator.comparingInt(Film::getRate).reversed())
                 .limit(count)
                 .collect(Collectors.toList());
     }
 
     public void addFilmLike(int filmId, int userId) {
-        userDbStorage.addFilmsLike(filmId,userId);
-        Film film = filmDbStorage.findFilmById(filmId);
+        userStorage.addFilmsLike(filmId,userId);
+        Film film = filmStorage.findFilmById(filmId);
         film.setRate(film.getRate() + 1);
-        userDbStorage.findUserById(userId).getFilmsLike().add(filmId);
+        userStorage.findUserById(userId).getFilmsLike().add(filmId);
     }
 
     public void removeFilmLike(int filmId, int userId) {
-        userDbStorage.removeFilmLike(filmId,userId);
-        Film film = filmDbStorage.findFilmById(filmId);
+        userStorage.removeFilmLike(filmId,userId);
+        Film film = filmStorage.findFilmById(filmId);
         film.setRate(film.getRate() - 1);
-        userDbStorage.findUserById(userId).getFilmsLike().remove(filmId);
+        userStorage.findUserById(userId).getFilmsLike().remove(filmId);
     }
 
 }

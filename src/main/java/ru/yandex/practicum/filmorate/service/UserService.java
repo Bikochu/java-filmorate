@@ -2,39 +2,39 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.dao.UserDbStorage;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.inteface.UserStorage;
 
 import java.util.*;
 
 @Service
 public class UserService {
 
-    private final UserDbStorage userDbStorage;
+    private final UserStorage userStorage;
 
     @Autowired
-    public UserService(UserDbStorage userDbStorage) {
-        this.userDbStorage = userDbStorage;
+    public UserService(UserStorage userStorage) {
+        this.userStorage = userStorage;
     }
 
     public List<User> getUsers() {
-        return userDbStorage.getUsers();
+        return userStorage.getUsers();
     }
 
     public User addUser(User user) {
-        return userDbStorage.addUser(user);
+        return userStorage.addUser(user);
     }
 
     public User updateUser(User user) {
-        return userDbStorage.updateUser(user);
+        return userStorage.updateUser(user);
     }
 
     public User findUserById(int id) {
-        return userDbStorage.findUserById(id);
+        return userStorage.findUserById(id);
     }
 
     public List<User> getFriends(int id) {
-        return userDbStorage.getFriends(id);
+        return userStorage.getFriends(id);
         /*Set<Integer> usersFriends = userDbStorage.findUserById(id).getFriends();
         return usersFriends.stream()
                 .map(userDbStorage::findUserById)
@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public List<User> getCommonFriends(int id, int otherId) {
-        return userDbStorage.getCommonFriends(id, otherId);
+        return userStorage.getCommonFriends(id, otherId);
         /*User user = userDbStorage.findUserById(id);
         List<User> commonFriends = new ArrayList<>();
         if (user.getFriends() != null) {
@@ -56,7 +56,7 @@ public class UserService {
     }
 
     public void addFriend(int id, int friendId) {
-        userDbStorage.addFriend(id,friendId);
+        userStorage.addFriend(id,friendId);
         /*if (id < 0 || friendId < 0) {
             throw new UserNotFoundException("Номер пользователя не может быть отрицательным.");
         }
@@ -65,7 +65,7 @@ public class UserService {
     }
 
     public void removeFriend(int id, int friendId) {
-        userDbStorage.removeFriend(id, friendId);
+        userStorage.removeFriend(id, friendId);
         /*userDbStorage.findUserById(id).getFriends().remove(friendId);
         userDbStorage.findUserById(friendId).getFriends().remove(id);
         userDbStorage.findUserById(id).getRequest().remove(friendId);
