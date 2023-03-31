@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.*;
 
 @lombok.Data
 @lombok.Builder
@@ -22,4 +23,6 @@ public class Film {
     @Positive(message = "Продолжительность фильма не может быть отрицательной.")
     Long duration;
     int rate;
+    List<Genre> genres;
+    Mpa mpa;
 }

@@ -2,12 +2,10 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exeption.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.inteface.UserStorage;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -36,35 +34,67 @@ public class UserService {
     }
 
     public List<User> getFriends(int id) {
-        Set<Integer> usersFriends = userStorage.findUserById(id).getFriends();
+        return userStorage.getFriends(id);
+        /*Set<Integer> usersFriends = userDbStorage.findUserById(id).getFriends();
         return usersFriends.stream()
-                .map(userStorage::findUserById)
+                .map(userDbStorage::findUserById)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 
     public List<User> getCommonFriends(int id, int otherId) {
-        User user = userStorage.findUserById(id);
+        return userStorage.getCommonFriends(id, otherId);
+        /*User user = userDbStorage.findUserById(id);
         List<User> commonFriends = new ArrayList<>();
         if (user.getFriends() != null) {
-            Set<Integer> userFriends = userStorage.findUserById(id).getFriends();
-            Set<Integer> friendFriends = userStorage.findUserById(otherId).getFriends();
-            commonFriends.addAll(userFriends.stream().map(userStorage::findUserById).collect(Collectors.toList()));
-            commonFriends.retainAll(friendFriends.stream().map(userStorage::findUserById).collect(Collectors.toList()));
+            Set<Integer> userFriends = userDbStorage.findUserById(id).getFriends();
+            Set<Integer> friendFriends = userDbStorage.findUserById(otherId).getFriends();
+            commonFriends.addAll(userFriends.stream().map(userDbStorage::findUserById).collect(Collectors.toList()));
+            commonFriends.retainAll(friendFriends.stream().map(userDbStorage::findUserById).collect(Collectors.toList()));
         }
-        return commonFriends;
+        return commonFriends;*/
     }
 
     public void addFriend(int id, int friendId) {
-        if (id < 0 || friendId < 0) {
+        userStorage.addFriend(id,friendId);
+        /*if (id < 0 || friendId < 0) {
             throw new UserNotFoundException("Номер пользователя не может быть отрицательным.");
         }
-        userStorage.findUserById(id).getFriends().add(friendId);
-        userStorage.findUserById(friendId).getFriends().add(id);
+        userDbStorage.findUserById(id).getFriends().add(friendId);
+        userDbStorage.findUserById(friendId).getFriends().add(id);*/
     }
 
     public void removeFriend(int id, int friendId) {
-        userStorage.findUserById(id).getFriends().remove(friendId);
-        userStorage.findUserById(friendId).getFriends().remove(id);
+        userStorage.removeFriend(id, friendId);
+        /*userDbStorage.findUserById(id).getFriends().remove(friendId);
+        userDbStorage.findUserById(friendId).getFriends().remove(id);
+        userDbStorage.findUserById(id).getRequest().remove(friendId);
+        userDbStorage.findUserById(friendId).getRequest().remove(id);*/
     }
+
+    /*public void sendRequest(int id, int friendId) {
+        userDbStorage.findUserById(id).getRequest().put(friendId,Status.PENDING);
+        userDbStorage.findUserById(friendId).getRequest().put(id,Status.PENDING);
+    }
+
+    public List<Integer> checkRequest(int id) {
+        List<Integer> pendingFriends = new ArrayList<>();
+        for (Map.Entry<Integer,Status> entry : userDbStorage.findUserById(id).getRequest().entrySet()) {
+            if (entry.getValue().equals(Status.PENDING)) {
+                pendingFriends.add(entry.getKey());
+            }
+        }
+        return pendingFriends;
+    }
+
+    public void acceptRequest(int id, int friendId) {
+        userDbStorage.findUserById(id).getRequest().put(friendId,Status.ACCEPTED);
+        userDbStorage.findUserById(friendId).getRequest().put(id,Status.ACCEPTED);
+        addFriend(id,friendId);
+    }
+
+    public void declineRequest(int id, int friendId) {
+        userDbStorage.findUserById(id).getRequest().put(friendId,Status.DECLINE);
+        userDbStorage.findUserById(friendId).getRequest().put(id,Status.DECLINE);
+    }*/
 }

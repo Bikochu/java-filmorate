@@ -2,13 +2,10 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exeption.FilmNotFoundException;
-import ru.yandex.practicum.filmorate.exeption.UserNotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.inteface.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.inteface.UserStorage;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +22,7 @@ public class FilmService {
         this.userStorage = userStorage;
     }
 
-    public ArrayList<Film> getFilms() {
+    public List<Film> getFilms() {
         return filmStorage.getFilms();
     }
 
@@ -49,12 +46,14 @@ public class FilmService {
     }
 
     public void addFilmLike(int filmId, int userId) {
+        userStorage.addFilmsLike(filmId,userId);
         Film film = filmStorage.findFilmById(filmId);
-        film.setRate(film.getRate()+1);
+        film.setRate(film.getRate() + 1);
         userStorage.findUserById(userId).getFilmsLike().add(filmId);
     }
 
-    public void removeFilmLike(int filmId, int userId) throws FilmNotFoundException, UserNotFoundException {
+    public void removeFilmLike(int filmId, int userId) {
+        userStorage.removeFilmLike(filmId,userId);
         Film film = filmStorage.findFilmById(filmId);
         film.setRate(film.getRate() - 1);
         userStorage.findUserById(userId).getFilmsLike().remove(filmId);
